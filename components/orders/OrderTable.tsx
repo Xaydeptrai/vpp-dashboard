@@ -19,18 +19,10 @@ import { useEffect, useState } from "react";
 interface OrdersTableProps {
     limit?: number;
     title?: string;
+    ordersData: Order[];
 }
 
-const OrderTable = ({ limit, title }: OrdersTableProps) => {
-    const [ordersData, setOrdersData] = useState<Order[]>([]);
-    
-    useEffect(() => {
-        const loadOrders = async () => {
-            const orders = (await fetchAdminOrders()).result.items; // Gọi API để lấy đơn hàng
-            setOrdersData(orders); // Cập nhật state với dữ liệu đơn hàng
-        };
-        loadOrders();
-    }, []);
+const OrderTable = ({ limit, title, ordersData }: OrdersTableProps) => {
     // Function to map numeric status to text
     const getStatusLabel = (status: OrderStatus) => {
         switch (status) {
@@ -74,7 +66,7 @@ const OrderTable = ({ limit, title }: OrdersTableProps) => {
                     <TableRow>
                         <TableHead>Tracking Number</TableHead>
                         <TableHead>Customer Name</TableHead>
-                        <TableHead className="hidden md:table-cell">Shipping Address</TableHead>
+                        <TableHead>Shipping Address</TableHead>
                         <TableHead>Order Date</TableHead>
                         <TableHead>Order Status</TableHead>
                         <TableHead className="text-right">Total</TableHead>

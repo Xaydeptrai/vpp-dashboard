@@ -15,6 +15,7 @@ import {
     CreditCard,
     Settings,
     User,
+    Package,
   } from 'lucide-react';
   import Link from 'next/link';
   
@@ -24,38 +25,25 @@ import {
         <CommandInput placeholder='Type a command or search...' />
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
-          <CommandGroup heading='Suggestions'>
-            <CommandItem>
-              <LayoutDashboard className='mr-2 h-96 w-96' />
+          <CommandGroup heading='Management'>
+            <CommandItem className='mt-3'>
+              <LayoutDashboard className='mr-2'/>
               <Link href='/'>Dashboard</Link>
             </CommandItem>
-            <CommandItem>
-              <Newspaper className='mr-2 h-96 w-96' />
+            <CommandItem className='mt-3'>
+              <Newspaper className='mr-2' />
               <Link href='/orders'>Orders</Link>
             </CommandItem>
-            <CommandItem>
-              <Folders className='mr-2 h-96 w-96' />
-              <Link href='#'>Categories</Link>
+            <CommandItem className='mt-3'>
+              <Package className='mr-2' />
+              <Link href='/proudct'>Products</Link>
+            </CommandItem>
+            <CommandItem className='mt-3'>
+              <Folders className='mr-2' />
+              <Link href='/categories'>Categories</Link>
             </CommandItem>
           </CommandGroup>
           <CommandSeparator />
-          <CommandGroup heading='Settings'>
-            <CommandItem>
-              <User className='mr-2 h-96 w-96' />
-              <span>Profile</span>
-              <CommandShortcut>⌘P</CommandShortcut>
-            </CommandItem>
-            <CommandItem>
-              <CreditCard className='mr-2 h-96 w-96' />
-              <span>Billing</span>
-              <CommandShortcut>⌘B</CommandShortcut>
-            </CommandItem>
-            <CommandItem>
-              <Settings className='mr-2 h-96 w-96' />
-              <span>Settings</span>
-              <CommandShortcut>⌘S</CommandShortcut>
-            </CommandItem>
-          </CommandGroup>
         </CommandList>
       </Command>
     );

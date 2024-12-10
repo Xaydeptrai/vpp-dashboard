@@ -6,7 +6,6 @@ const OrdersPage = () => {
     return ( 
         <>
             <BackButton text="Go Back" link="/" />
-            <OrderTable/>
             <TablePagination totalPages={10} />
         </> 
     );
