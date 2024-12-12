@@ -5,14 +5,16 @@ import { Pagination, PaginationContent, PaginationItem, PaginationLink, Paginati
 
 interface TablePaginationClientProps {
   totalPages: number;
+  onPageChange: (page: number) => void;
 }
 
-const TablePaginationClient: React.FC<TablePaginationClientProps> = ({ totalPages }) => {
+const TablePaginationClient: React.FC<TablePaginationClientProps> = ({ totalPages, onPageChange }) => {
   const [activePage, setActivePage] = useState(1); // Default active page is 1
 
   const handlePageChange = (page: number) => {
     if (page > 0 && page <= totalPages) {
       setActivePage(page); // Update the active page
+      onPageChange(page);
     }
   };
 

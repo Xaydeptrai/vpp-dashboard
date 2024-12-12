@@ -60,7 +60,7 @@ export default function Home() {
                 />
             </div>
             <div className="mt-8">
-              <OrderTable title="New Orders" limit={5} ordersData={ordersData} /> {/* Truyền dữ liệu đơn hàng */}
+              <OrderTable title="New Orders" ordersData={ordersData} />
             </div>
         </div>
     );

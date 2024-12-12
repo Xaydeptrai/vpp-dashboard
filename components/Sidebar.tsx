@@ -6,22 +6,18 @@ import {
     CommandItem,
     CommandList,
     CommandSeparator,
-    CommandShortcut,
   } from '@/components/ui/command';
   import {
     LayoutDashboard,
     Newspaper,
     Folders,
-    CreditCard,
-    Settings,
-    User,
     Package,
   } from 'lucide-react';
   import Link from 'next/link';
   
   const Sidebar = () => {
     return (
-      <Command className='bg-secondary rounded-none'>
+      <Command className='bg-secondary rounded-none pt-2'>
         <CommandInput placeholder='Type a command or search...' />
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>

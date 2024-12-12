@@ -12,26 +12,19 @@ import Link from "next/link";
 import { Order } from "@/types/order";
 import { Button } from "../ui/button";
 import { OrderStatus } from "@/enums/OrderStatus";
-import { fetchAdminOrders } from "@/api/order";
-import { useEffect, useState } from "react";
 
 
 interface OrdersTableProps {
-    limit?: number;
     title?: string;
     ordersData: Order[];
 }
 
-const OrderTable = ({ limit, title, ordersData }: OrdersTableProps) => {
+const OrderTable = ({ title, ordersData }: OrdersTableProps) => {
     // Function to map numeric status to text
     const getStatusLabel = (status: OrderStatus) => {
         switch (status) {
             case OrderStatus.Pending:
                 return "Pending";
-            case OrderStatus.Processing:
-                return "Processing";
-            case OrderStatus.Shipped:
-                return "Shipped";
             case OrderStatus.Delivered:
                 return "Delivered";
             case OrderStatus.Cancelled:
@@ -85,7 +78,7 @@ const OrderTable = ({ limit, title, ordersData }: OrdersTableProps) => {
                                 {formatCurrency(order.orderTotal)}
                             </TableCell>
                             <TableCell className="text-center">
-                                <Link href={`/order/edit/${order.trackingNumber}`}>
+                                <Link href={`/orders/${order.trackingNumber}`}>
                                     <Button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-xs">
                                         Edit
                                     </Button>
