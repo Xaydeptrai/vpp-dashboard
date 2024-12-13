@@ -24,7 +24,6 @@ instance.interceptors.request.use(
     if (error.response?.status === 400) {
       console.error(error);
     }
-
     return Promise.reject(error);
   }
 );

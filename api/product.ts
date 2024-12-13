@@ -37,6 +37,7 @@ export const updateProduct = async ({
   price,
   imageUrl1,
   stock,
+  catalogId,
 }: {
   id: number;
   name: string;
@@ -44,6 +45,7 @@ export const updateProduct = async ({
   price: number;
   imageUrl1: string | null;
   stock: number;
+  catalogId: number;
 }) => {
   const response = await instance.put("/v1/products/" + id.toString(), {
     name,
@@ -51,11 +53,32 @@ export const updateProduct = async ({
     price,
     imageUrl1,
     stock,
+    catalogId,
   });
   return response.data;
 };
 
 export const deleteProduct = async (id: number) => {
   const response = await instance.delete("/v1/products/" + id.toString());
+  return response.data;
+};
+
+export const createProduct = async (
+  name: string,
+  description: string,
+  price: number,
+  stock: number,
+  catalogId: number,
+  imageUrl1?: string
+) => {
+  const response = await instance.post("/v1/products/", {
+    name,
+    description,
+    price,
+    stock,
+    catalogId,
+    imageUrl1,
+  });
+
   return response.data;
 };

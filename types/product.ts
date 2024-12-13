@@ -6,6 +6,7 @@ export interface Product {
   imageUrl1: string;
   imageUrl2: string;
   stock: number;
+  catalogId: number;
   catalogName: string;
   isDeleted: boolean;
   createDate: Date;

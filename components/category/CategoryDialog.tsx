@@ -3,7 +3,6 @@ import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Product } from "@/types/product";
 import Image from "next/image";
 import {
   Dialog,
@@ -14,18 +13,20 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { uploadImageToCloudinary } from "@/api/cloudinary";
-import { updateProduct } from "@/api/product";
+import { createCategory, updateCategory } from "@/api/category";
+import { Catalog } from "@/types/catalog";
 
-interface ProductEditFormProbs {
-  title?: string;
-  productData: Product;
+interface CategoryDialogProps {
+  title: string;
+  categoryData?: Catalog;
+  onSuccess?: () => void;
 }
 
-export function EditProductDialog({
+export function CategoryDialog({
   title,
-  productData,
+  categoryData,
   onSuccess,
-}: ProductEditFormProbs & { onSuccess?: () => void }) {
+}: CategoryDialogProps) {
   const [open, setOpen] = React.useState(false);
 
   const handleSuccess = () => {
@@ -38,33 +39,34 @@ export function EditProductDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>Edit</Button>
+        <Button>{categoryData ? "Edit" : "Create"}</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>
-            Make changes here. Click save when you&apos;re done.
+            {categoryData
+              ? "Make changes here. Click save when you're done."
+              : "Create a new Category."}
           </DialogDescription>
         </DialogHeader>
-        <ProductEditForm productData={productData} onSuccess={handleSuccess} />
+        <ProductForm categoryData={categoryData} onSuccess={handleSuccess} />
       </DialogContent>
     </Dialog>
   );
 }
 
-function ProductEditForm({
-  productData,
-  onSuccess,
-}: ProductEditFormProbs & { onSuccess?: () => void }) {
+interface CategoryFormProps {
+  categoryData?: Catalog;
+  onSuccess?: () => void;
+}
+
+function ProductForm({ categoryData, onSuccess }: CategoryFormProps) {
   const [imageFile, setImageFile] = React.useState<File | null>(null);
   const [imageUrl, setImageUrl] = React.useState<string | null>(
-    productData.imageUrl1 || null
+    categoryData?.imageUrl || null
   );
-  const [name, setName] = React.useState(productData.name);
-  const [description, setDescription] = React.useState(productData.description);
-  const [price, setPrice] = React.useState(productData.price);
-  const [stock, setStock] = React.useState(productData.stock);
+  const [name, setName] = React.useState(categoryData?.name || "");
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -80,7 +82,7 @@ function ProductEditForm({
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    let uploadedImageUrl = imageUrl || null;
+    let uploadedImageUrl = imageUrl || undefined;
 
     if (imageFile) {
       try {
@@ -93,20 +95,19 @@ function ProductEditForm({
     }
 
     try {
-      const updatedProduct = await updateProduct({
-        id: productData.id,
-        name,
-        description,
-        price,
-        imageUrl1: uploadedImageUrl,
-        stock,
-      });
-      console.log("Product updated successfully", updatedProduct);
-      alert("Cập nhật sản phẩm thành công!");
+      if (categoryData) {
+        // Update product
+        await updateCategory(categoryData.id, name, uploadedImageUrl);
+        alert("Cập nhật danh mục thành công!");
+      } else {
+        // Create product
+        await createCategory(name, uploadedImageUrl);
+        alert("Danh mục đã được tạo thành công!");
+      }
       if (onSuccess) onSuccess();
     } catch (error) {
-      console.error("Error during product update:", error);
-      alert("Lỗi khi cập nhật sản phẩm. Vui lòng thử lại.");
+      console.error("Error during category submission:", error);
+      alert("Lỗi khi xử lý danh mục. Vui lòng thử lại.");
     }
   };
 
@@ -119,15 +120,6 @@ function ProductEditForm({
           id="name"
           value={name}
           onChange={(e) => setName(e.target.value)}
-        />
-      </div>
-      <div className="grid gap-2">
-        <Label>Description</Label>
-        <Input
-          type="text"
-          id="description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
         />
       </div>
       <div className="grid gap-2">
@@ -151,25 +143,9 @@ function ProductEditForm({
           )}
         </div>
       </div>
-      <div className="grid gap-2">
-        <Label>Stock</Label>
-        <Input
-          type="number"
-          id="stock"
-          value={stock}
-          onChange={(e) => setStock(Number(e.target.value))}
-        />
-      </div>
-      <div className="grid gap-2">
-        <Label>Price</Label>
-        <Input
-          type="number"
-          id="price"
-          value={price}
-          onChange={(e) => setPrice(Number(e.target.value))}
-        />
-      </div>
-      <Button type="submit">Save changes</Button>
+      <Button type="submit">
+        {categoryData ? "Save changes" : "Create category"}
+      </Button>
     </form>
   );
 }

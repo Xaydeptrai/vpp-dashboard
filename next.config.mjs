@@ -7,7 +7,7 @@ const nextConfig = {
         hostname: "images.pexels.com",
       },
     ],
-    domains: ["sp-ao.shortpixel.ai", "res.cloudinary.com"],
+    domains: ["sp-ao.shortpixel.ai", "res.cloudinary.com", "th.bing.com"],
   },
 };
 

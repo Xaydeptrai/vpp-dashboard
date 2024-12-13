@@ -10,9 +10,9 @@ import {
 import { Product } from "@/types/product";
 import { Button } from "../ui/button";
 import Image from "next/image";
-import { EditProductDialog } from "./ProductEditForm";
 import { Trash } from "lucide-react";
 import { deleteProduct } from "@/api/product";
+import { ProductDialog } from "./ProductDialog";
 
 interface ProductsTableProps {
   title?: string;
@@ -38,6 +38,9 @@ const ProductTable = ({ title, productData, onUpdate }: ProductsTableProps) => {
     <div className="mt-10 mb-5">
       <div className="mb-4 flex">
         <h3 className="text-2xl font-semibold">{title ? title : "Products"}</h3>
+        <div className="ml-auto">
+          <ProductDialog title="Create product" onSuccess={onUpdate} />
+        </div>
       </div>
       <Table>
         <TableHeader>
@@ -73,7 +76,7 @@ const ProductTable = ({ title, productData, onUpdate }: ProductsTableProps) => {
               </TableCell>
               <TableCell>
                 <div className="flex justify-center gap-5">
-                  <EditProductDialog
+                  <ProductDialog
                     title="Edit Product"
                     productData={product}
                     onSuccess={onUpdate} // Callback được truyền từ cha

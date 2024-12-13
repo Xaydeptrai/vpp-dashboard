@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Account } from "@/types/account";
 import { instance } from "./index";
 import { User } from "@/types/user";
