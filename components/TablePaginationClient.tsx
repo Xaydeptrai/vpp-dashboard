@@ -1,14 +1,24 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from './ui/pagination';
+import React, { useState } from "react";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "./ui/pagination";
 
 interface TablePaginationClientProps {
   totalPages: number;
   onPageChange: (page: number) => void;
 }
 
-const TablePaginationClient: React.FC<TablePaginationClientProps> = ({ totalPages, onPageChange }) => {
+const TablePaginationClient: React.FC<TablePaginationClientProps> = ({
+  totalPages,
+  onPageChange,
+}) => {
   const [activePage, setActivePage] = useState(1); // Default active page is 1
 
   const handlePageChange = (page: number) => {
@@ -27,7 +37,7 @@ const TablePaginationClient: React.FC<TablePaginationClientProps> = ({ totalPage
           isActive={i === activePage}
           onClick={(e) => {
             e.preventDefault();
-            handlePageChange(i); // Handle click and change the active page
+            handlePageChange(i);
           }}
         >
           {i}
@@ -45,7 +55,7 @@ const TablePaginationClient: React.FC<TablePaginationClientProps> = ({ totalPage
             onClick={(e) => {
               e.preventDefault();
               if (activePage > 1) {
-                handlePageChange(activePage - 1); // Go to previous page
+                handlePageChange(activePage - 1);
               }
             }}
           />
@@ -57,7 +67,7 @@ const TablePaginationClient: React.FC<TablePaginationClientProps> = ({ totalPage
             onClick={(e) => {
               e.preventDefault();
               if (activePage < totalPages) {
-                handlePageChange(activePage + 1); // Go to next page
+                handlePageChange(activePage + 1);
               }
             }}
           />
