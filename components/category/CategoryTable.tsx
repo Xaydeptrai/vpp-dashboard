@@ -28,10 +28,15 @@ const CategoryTable = ({
   async function deleteHandle(id: number) {
     try {
       const res = await deleteCategory(id);
-      alert("Category deleted successfully.");
+      if (res?.message) {
+        alert(res.message);
+      } else {
+        alert("Category deleted successfully.");
+      }
       onUpdate();
-    } catch (error: any) {
-      alert("Failed to delete category." + error.message);
+    } catch (error) {
+      console.error("Error deleting category:", error);
+      alert("Failed to delete category. Please try again.");
     }
   }
 

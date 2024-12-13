@@ -29,9 +29,18 @@ const ProductTable = ({ title, productData, onUpdate }: ProductsTableProps) => {
   };
 
   async function deleteHandle(id: number) {
-    const res = await deleteProduct(id);
-    alert(res?.message);
-    onUpdate();
+    try {
+      const res = await deleteProduct(id);
+      if (res?.message) {
+        alert(res.message);
+      } else {
+        alert("Product deleted successfully.");
+      }
+      onUpdate();
+    } catch (error) {
+      console.error("Error deleting Product:", error);
+      alert("Failed to delete Product. Please try again.");
+    }
   }
 
   return (

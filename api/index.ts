@@ -23,6 +23,7 @@ instance.interceptors.request.use(
     }
     if (error.response?.status === 400) {
       console.error(error);
+      throw error;
     }
     return Promise.reject(error);
   }
