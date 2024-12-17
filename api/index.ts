@@ -16,15 +16,30 @@ instance.interceptors.request.use(
     }
     return config;
   },
+  (error) => Promise.reject(error)
+);
+
+// Interceptor để xử lý lỗi từ response
+instance.interceptors.response.use(
+  (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
-      console.error("Unauthorized. Redirecting to login.");
-      window.location.href = "/";
+    const status = error?.code;
+
+    if (status === "ERR_NETWORK") {
+      console.error(
+        "Unauthorized. Clearing localStorage and redirecting to login."
+      );
+      // Xóa localStorage
+      localStorage.clear();
+
+      // Chuyển hướng về trang login
+      if (typeof window !== "undefined") {
+        window.location.href = "/login";
+      }
+    } else if (status === 400) {
+      console.error("Bad Request:", error.response.data);
     }
-    if (error.response?.status === 400) {
-      console.error(error);
-      throw error;
-    }
+
     return Promise.reject(error);
   }
 );
